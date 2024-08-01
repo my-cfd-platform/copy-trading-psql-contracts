@@ -1,0 +1,11 @@
+[package]
+name = "copy-trading-psql-contracts"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+service-sdk = { git = "https://github.com/MyJetTools/service-sdk", tag = "0.2.6", features = [
+    "postgres",
+] }
+
+serde = { version = "*", features = ["derive"] }
