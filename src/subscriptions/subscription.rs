@@ -33,6 +33,14 @@ pub struct CopyTradingSubscriptionUpdateDbModel {
     pub pl_force_stop_loss: Option<f64>,
 }
 
+
+#[derive(UpdateDbEntity, Debug, Clone, Serialize, Deserialize)]
+pub struct CopyTradingSubscriptionUpdateStatusDbModel {
+    #[primary_key]
+    pub id: String,
+    pub status: CopyTradingSubscriptionDbStatus,
+}
+
 #[derive(WhereDbModel, Debug, Clone, Serialize, Deserialize)]
 pub struct CopyTradingSubscriptionWhereDbModel {
     #[ignore_if_none]
@@ -81,6 +89,17 @@ impl CopyTradingSubscriptionDbRepository {
     pub async fn update_subscription(
         &self,
         update_model: CopyTradingSubscriptionUpdateDbModel,
+    ) -> Result<(), MyPostgresError> {
+        self.postgres
+            .update_db_entity(&update_model, TABLE_NAME, None)
+            .await?;
+
+        Ok(())
+    }
+
+    pub async fn update_subscription_status(
+        &self,
+        update_model: CopyTradingSubscriptionUpdateStatusDbModel,
     ) -> Result<(), MyPostgresError> {
         self.postgres
             .update_db_entity(&update_model, TABLE_NAME, None)
